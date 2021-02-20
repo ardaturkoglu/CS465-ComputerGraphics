@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Koch Curves</title>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+
+
+        void main()
+        {
+            gl_Position = vPosition;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        uniform vec4 fColor;
+
+        void
+        main()
+        {
+            gl_FragColor = fColor;//vec4( 1.0, 0.0, 0.0, 1.0 );
+        }
+
+    </script>
+
+    <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../Common/initShaders.js"></script>
+    <script type="text/javascript" src="../Common/MV.js"></script>
+    <script type="text/javascript" src="homework1.js"></script>
+</head>
+
+<body>
+
+
+<canvas width="650" height="512" id="gl-canvas">
+    Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+<div>
+    Number of iteration  1<input id="slider" type="range" min="1" max="5" step="1" value="1"/>
+    5 <button onclick="process()">Apply rule</button>
+    <br>
+    <br>
+    Canvas Background Color (move cursor to the canvas & Click Apply Rule if rule applied): <input type="color" id="bgColorInput" name="BGColor" value="#000000" button onclick="render()"><br>
+    Line Color (move cursor to the canvas & Click Apply Rule if rule applied) : <input type="color" id="lineColorInput" name="LineColor" value="#ff0000" button onclick="render()"><br>    
+</div>
+<br>
+<input id="save_button" type="button" value="Save" onclick="save()">
+
+<label for="upload-polygon">Select a file to load</label> <input type="file" name="import_file" id="upload" accept=".json" />
+<button onclick="load()">Load</button>
+<p>
+    <span id="json-file"></span>
+</p>
+</body>
+</html>

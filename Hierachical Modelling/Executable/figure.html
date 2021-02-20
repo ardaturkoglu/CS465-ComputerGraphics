@@ -1,0 +1,286 @@
+<html>
+<head>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute  vec4 vPosition;
+        attribute  vec4 vColor;
+        varying vec4 fColor;
+
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+
+        void main()
+        {
+            fColor = vColor;
+            gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying  vec4 fColor;
+
+        void main()
+        {
+            gl_FragColor = fColor;
+        }
+    </script>
+
+    <script type="text/javascript" src="../Source/Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../Source/Common/InitShaders.js"></script>
+    <script type="text/javascript" src="../Source/Common/MV.js"></script>
+    <script type="text/javascript" src="../Source/hw2.js"></script>
+
+    <link rel="stylesheet" href="../Source/figure.css">
+</head>
+
+<body>
+
+<h1>Hierarchical Modeling: Modeling and Animating Insect Models Using WebGL</h1>
+<div class="row">
+    <div class="column">
+        <h4>Animate Torso</h4>
+        <div id="animationSpeedDiv">
+            <p>Animation Speed </p>
+            <input class="slider" id="speed" type="range" min="10" max="240" step="1" value="30"/>
+        </div>
+        <div id="torsoLeftAngleSliderDiv">
+            <p>Y Angle Left Torso </p>
+            <input class="slider" id="torsoLeft" type="range" min="145" max="225" step="1" value="180"/>
+        </div>
+        <div id="headAngleSliderDiv">
+            <p>head1 y angle -30 to 30</p>
+            <input class="slider" id="head" type="range" min="-30" max="30" step="1" value="0"/>
+        </div>
+        <div id="headUpDown">
+            <p>Rotate Head Up/Down -30 to 30</p>
+            <input class="slider" id="head" type="range" min="-30" max="30" step="1" value="0"/>
+        </div>
+        <div id="torsoXDiv">
+            <p>Torso X</p>
+            <input class="slider" id="torsoX" type="range" min="-10" max="10" step="1" value="0"/>
+        </div>
+        <div id="torsoYDiv">
+            <p>Torso Y</p>
+            <input class="slider" id="torsoY" type="range" min="-10" max="10" step="1" value="0"/>
+        </div>
+        <div id="xRotate">
+            <p>X rotate -180 to 180 </p>
+            <input class="slider" id="speed" type="range" min="-180" max="180" step="1" value="0"/>
+        </div>
+        <div id="yRotate">
+            <p>Y rotate -180 to 180 </p>
+            <input class="slider" id="speed" type="range" min="-180" max="180" step="1" value="0"/>
+        </div>
+        <div id="torsoMidAngleSliderDiv">
+            <p>Z Rotate -180 to 180 </p>
+            <input class="slider" id="torsoMid" type="range" min="-180" max="180" step="1" value="0"/>
+        </div>
+        
+    </div>
+    
+
+    <div class="column">
+        <h4>Animate Left Side of the Ant</h4>
+        <h5>Front Side</h5>
+        <div id="leftFrontUpperArmSliderDiv">
+            <p>Y Angle Left Front Upper Arm </p>
+            <input class="slider" id="leftFrontUpperArm" type="range" min="45" max="115" step="1" value="75"/>
+        </div>
+
+        <div id="leftFrontLowerArmSliderDiv">
+            <p> Y Angle Left Front Lower Arm</p>
+            <input class="slider" id="leftFrontLowerArm" type="range" min="-60" max="0" step="1" value="-35"/>
+        </div>
+
+        <div id="leftFrontFootSliderDiv">
+            <p> Y Angle Left Front Foot</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-50" max="25" step="1" value="-25"/>
+        </div>
+        <div id="leftFrontUpperArmRotate">
+            <p>Rotate Upper Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="leftFrontLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+        <h5>Back Side</h5>
+        <div id="leftBackUpperArmSliderDiv">
+            <p> Y Angle Left Back Upper Arm</p>
+            <input class="slider" id="leftBackUpperArm" type="range" min="-115" max="-45" step="1" value="-75"/>
+        </div>
+
+        <div id="leftBackLowerArmSliderDiv">
+            <p> Y Angle Left Back Lower Arm</p>
+            <input class="slider" id="leftBackLowerArm" type="range" min="0" max="60" step="1" value="35"/>
+        </div>
+        
+        <div id="leftBackFootSliderDiv">
+            <p> Y Angle Left Back Foot</p>
+            <input class="slider" id="leftBackFoot" type="range" min="-25" max="50" step="1" value="25"/>
+        <div id="leftBackUpperArmRotate">
+                <p>Rotate Upper Arm Up/Down</p>
+                <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="leftBackLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+        </div>
+    </div>
+    <div class="column">
+        <div id="antenna2SliderDiv">
+            <p>Y Angle Antenna2</p>
+            <input class="slider" id="antenna2" type="range" min="290" max="360" step="1" value="315"/>
+        </div>
+        <h4>Animate Mid of the Ant</h4>
+        <h5>Front Side</h5>
+        <div id="midFrontUpperArmSliderDiv">
+            <p>Y Angle Mid Front Upper Arm</p>
+            <input class="slider" id="midFrontUpperArm" type="range" min="60" max="105" step="1" value="85"/>
+        </div>
+
+        <div id="midFrontLowerArmSliderDiv">
+            <p>Y Angle Mid Front Lower Arm</p>
+            <input class="slider" id="midFrontLowerArm" type="range" min="-45" max="15" step="1" value="-25"/>
+        </div>
+
+        <div id="midFrontFootSliderDiv">
+            <p>Y Angle Mid Front Foot</p>
+            <input class="slider" id="midFrontFoot" type="range" min="-45" max="35" step="1" value="0"/>
+        </div>
+        <div id="midFrontUpperArmRotate">
+            <p>Rotate Upper Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="midFrontLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+        <h5>Back Side</h5>
+        <div id="midBackUpperArmSliderDiv">
+            <p>-180/180 Y Angle Mid Back Upper Arm</p>
+            <input class="slider" id="midBackUpperArm" type="range" min="-105" max="-45" step="1" value="-85"/>
+        </div>
+
+        <div id="midBackLowerArmSliderDiv">
+            <p>Y Angle Mid Back Lower Arm</p>
+            <input class="slider" id="midBackLowerArm" type="range" min="5" max="65" step="1" value="25"/>
+        </div>
+        
+        <div id="midBackFootSliderDiv">
+            <p>Y Angle Mid Back Foot</p>
+            <input class="slider" id="midBackFoot" type="range" min="-45" max="35" step="1" value="0"/>
+        </div>
+        <div id="midBackUpperArmRotate">
+            <p>Rotate Upper Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="midBackLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+
+    </div>
+    <div class="column"> 
+        <div id="antenna1SliderDiv">
+            <p> Y Angle Antenna1</p>
+            <input class="slider" id="antenna1" type="range" min="0" max="75" step="1" value="45"/>
+        </div>
+        <h4>Animate Right Side of the Ant</h4>
+        <h5>Front Side</h5>
+        <div id="rightFrontUpperArmSliderDiv">
+            <p>Y Angle Right Front Upper Arm</p>
+            <input class="slider" id="rightFrontUpperArm" type="range" min="60" max="105" step="1" value="85"/>
+        </div>
+
+        <div id="rightFrontLowerArmSliderDiv">
+            <p>Y Angle Right Front Lower Arm</p>
+            <input class="slider" id="rightFrontLowerArm" type="range" min="-45" max="45" step="1" value="25"/>
+        </div>
+
+        <div id="rightFrontFootSliderDiv">
+            <p>Y Angle Right Front Foot</p>
+            <input class="slider" id="rightFrontFoot" type="range" min="-45" max="35" step="1" value="0"/>
+        </div>
+        <div id="rightFrontUpperArmRotate">
+            <p>Rotate Upper Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="rightFrontLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+       
+        <h5>Back Side</h5>
+        <div id="rightBackUpperArmSliderDiv">
+            <p>Y Angle Right Back Upper Arm</p>
+            <input class="slider" id="rightBackUpperArm" type="range" min="-110" max="-65" step="1" value="-85"/>
+        </div>
+
+        <div id="rightBackLowerArmSliderDiv">
+            <p>Y Angle Right Back Lower Arm</p>
+            <input class="slider" id="rightBackLowerArm" type="range" min="-45" max="45" step="1" value="-25"/>
+        </div>
+        
+        <div id="rightBackFootSliderDiv">
+            <p>Y Angle Right Back Foot</p>
+            <input class="slider" id="rightBackFoot" type="range" min="-45" max="35" step="1" value="0"/>
+        </div>
+        <div id="rightBackUpperArmRotate">
+            <p>Rotate Upper Arm Up/Down</p>
+            <input class="slider" id="leftFrontFoot" type="range" min="-60" max="30" step="1" value="-30"/>
+        </div>
+        <div id="rightBackLowerArmRotate">
+            <p>Rotate Lower Arm Up/Down</p>
+            <input class="slider" id="leftLowerFoot" type="range" min="-30" max="110" step="1" value="60"/>
+        </div>
+    </div>
+       
+    </div>
+   
+   
+
+</div>
+
+<div class="row">
+
+    <div class="column2">
+        <canvas id="gl-canvas" width="1000" height="600">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+
+<div class="column2">
+    <label class="container">
+        Animate
+        <input type="checkbox" checked="checked">
+        <span class="checkmark"></span>
+      </label>
+    <div class="btn-group">
+        <button onclick="add_posture()">Add Posture</button>
+        <button onclick="remove_posture()">Remove Posture</button>
+        <button onclick="myFunction()">Play</button>
+        <button onclick="myFunction()">Pause</button>
+        <button onclick="save()">Save</button>
+        <button onclick="load()">Load</button>
+        <input type="file" name="import_file" id="upload" /> 
+        <p>
+            <span id="json-file"></span>
+        </p>      
+    </div>
+    
+
+    
+
+    <h4>Posture List</h4>
+    <ol id="postureList" >
+        
+    </ol>
+</div>
+</div>
+
+</body>
+</html>
